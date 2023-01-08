@@ -1,0 +1,20 @@
+stages:
+  - build
+  - deploy
+
+build_docker_image:
+  only:
+    - pushes
+# cборка и деплой тригер на push, не комит потому что сколько комитов столько будет и процессов
+  stage: build
+  tags:
+    - test
+  script:
+    - docker-compose build
+
+deploy_on_tester:
+  stage: deploy
+  tags:
+    - test
+  script:
+    - docker-compose up -d
